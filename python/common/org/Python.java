@@ -1021,7 +1021,7 @@ public class Python {
                 }
             }
         } else {
-            throw new org.python.exceptions.TypeError("'" + iterator.typeName() + "' object is not iterable");
+            throw new org.python.exceptions.TypeError("'" + iterator.typeName() + "' object is not an iterator");
         }
     }
 
