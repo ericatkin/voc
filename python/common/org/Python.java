@@ -1002,25 +1002,26 @@ public class Python {
     }
 
     @org.python.Method(
-        __doc__ = "next(iterable[, default])" +
+        __doc__ = "next(iterator[, default])" +
             "\n" +
             "Return the next item from the iterator. If default is given and the iterator\n" +
             "is exhausted, it is returned instead of raising StopIteration.\n",
-        args = {"iterable"},
+        args = {"iterator"},
         default_args = {"_default"}
     )
-    public static org.python.Object next(org.python.Object iterable, org.python.Object _default) {
-        try {
-            return iterable.__iter__().__next__();
-        } catch (org.python.exceptions.AttributeError ae) {
-            throw new org.python.exceptions.TypeError("'" + iterable.typeName() + "' object is not iterable");
-        } catch (org.python.exceptions.StopIteration si) {
-            if (_default != null) {
-                return _default;
+    public static org.python.Object next(org.python.Object iterator, org.python.Object _default) {
+        if (iterator instanceof org.python.Iterable) {
+            try {
+                return ((org.python.Iterable) iterator).__next__();
+            } catch (org.python.exceptions.StopIteration si) {
+                if (_default != null) {
+                    return _default;
+                } else {
+                    throw si;
+                }
             }
-            else {
-                throw si;
-            }
+        } else {
+            throw new org.python.exceptions.TypeError("'" + iterator.typeName() + "' object is not iterable");
         }
     }
 

@@ -19,7 +19,7 @@ class NextTests(TranspileTestCase):
     def test_next_exhausted_with_default(self):
         self.assertCodeExecution("""
             i = iter([])
-            print(next(i, 1))
+            print(next(i, 0))
         """)
 
     @expectedFailure
